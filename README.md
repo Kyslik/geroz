@@ -19,16 +19,16 @@ func main() {
     if e != nil {
         log.Fatalf("failed to initialize command: %w\n", e)
     }
-   
+
     // start `c`
     c, e = geroz.StartProcess(c)
     if e != nil {
         log.Fatalf("failed to start process: %w\n", e)
     }
-    
+
     ctx, cancel := context.WithCancel(context.Background())
     defer cancel()
-    
+
     // set up propagating signals to the process c
     go geroz.PropagateSignals(ctx, c)
 
@@ -41,3 +41,8 @@ func main() {
 ```
 
 For more examples see directory [examples](./examples).
+
+## TODO
+
+- [ ] make test pass when using `go test -race`
+- [ ] implement catching zombie processes - <https://github.com/ramr/go-reaper>
