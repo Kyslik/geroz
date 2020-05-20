@@ -17,13 +17,13 @@ func main() {
     // initialize command `*exec.Cmd` with sane defaults
     c, e := geroz.Command()
     if e != nil {
-        log.Fatalf("failed to initialize command: %w\n", e)
+        log.Fatalf("failed to initialize command: %v\n", e)
     }
 
     // start `c`
     c, e = geroz.StartProcess(c)
     if e != nil {
-        log.Fatalf("failed to start process: %w\n", e)
+        log.Fatalf("failed to start process: %v\n", e)
     }
 
     ctx, cancel := context.WithCancel(context.Background())
