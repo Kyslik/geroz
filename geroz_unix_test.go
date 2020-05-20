@@ -20,13 +20,13 @@ import (
 	"time"
 )
 
-// disable output of command c
+// Disable output of command c
 func disableOutput(c *exec.Cmd) {
 	c.Stdout = nil
 	c.Stderr = nil
 }
 
-// get command and disable output
+// Get command instance and disable output
 func commandWithDisabledOutput() (*exec.Cmd, error) {
 	c, e := geroz.Command()
 	if e == nil {
@@ -119,13 +119,13 @@ func TestStartProcessFails(t *testing.T) {
 	nok(t, e)
 }
 
-// This test is hard to understand
-// TODO: add detailed description of this test, including a diagram (sequence)
+// This test is hard to understand, it builds a test binary and runs itself.
+// TODO: add detailed description of this test, including a sequence diagram.
 func TestPropagateSignals(t *testing.T) {
-	// catch calling the testing binary
+	// Catch calling the testing binary
 	if os.Getenv("GO_TEST_PROPAGATE_SIGNALS") == "1" {
 		signalCatcher()
-		// mind that on exit `go test` prints "PASS"
+		// `go test` prints "PASS" on exit
 		os.Exit(0)
 	}
 
@@ -149,10 +149,10 @@ func TestPropagateSignals(t *testing.T) {
 	}
 }
 
-// when called waits for a signal and blocks
-// imaginary binary that we want to propagate signals to
+// When called waits for a signal and blocks imaginary binary,
+// that we want to propagate signals to
 func signalCatcher() {
-	// cleanup in case parent gets killed by SIGKILL :(
+	// Cleanup in case parent gets killed by SIGKILL :(
 	time.AfterFunc(100*time.Millisecond, func() { os.Exit(125) })
 
 	signalChannel := make(chan os.Signal, 2)
@@ -166,14 +166,14 @@ func signalCatcher() {
 }
 
 func buildTestBinary(t *testing.T) string {
-	// get name of current file being executed
+	// Get name of current file being executed
 	_, file, _, k := runtime.Caller(1)
 	if !k {
 		t.Fatalf("Could not get name of the test file")
 		return ""
 	}
 
-	// calculate sha1 of the file currently run file
+	// Calculate sha1 of the file currently run file
 	f, err := os.Open(file)
 	if err != nil {
 		t.Fatalf(err.Error())
@@ -188,13 +188,13 @@ func buildTestBinary(t *testing.T) string {
 	testDir := "./.tc/"
 	testBinFilename := testDir + hex.EncodeToString(h.Sum(nil)[:8])
 
-	// check if binary already exists, if yes return
+	// Check if binary already exists, if yes return
 	_, err = os.Stat(testBinFilename)
 	if !os.IsNotExist(err) {
 		return testBinFilename
 	}
 
-	// remove contents of testDir directory
+	// Remove contents of testDir directory
 	dir, err := ioutil.ReadDir(testDir)
 	if err == nil {
 		for _, d := range dir {
@@ -202,7 +202,7 @@ func buildTestBinary(t *testing.T) string {
 			ok(t, e)
 		}
 	}
-	// build test binary for invoking later
+	// Build test binary for invoking later
 	cmd := exec.Command("go", "test", "-c", "-o", testBinFilename)
 
 	e := cmd.Start()
@@ -225,14 +225,14 @@ func tablePropagateSignals(t *testing.T, signal syscall.Signal) {
 	ok(t, e)
 
 	go func(t *testing.T, s *bufio.Scanner) {
-		// tightly coupled with signalCatcher(), expects to scan only once
+		// Tightly coupled with signalCatcher(), expects to scan only once
 		ran := false
 		for s.Scan() {
 			equals(t, signal.String(), s.Text())
 			ran = true
 			break
 		}
-		// make sure we fail if we did not run the test
+		// Make sure we fail if we did not run the test
 		defer func() {
 			if !ran {
 				t.Fail()
@@ -250,7 +250,7 @@ func tablePropagateSignals(t *testing.T, signal syscall.Signal) {
 
 	go geroz.PropagateSignals(ctx, c)
 
-	// wait for testBin to start
+	// Wait for testBin to start
 	time.Sleep(10 * time.Millisecond)
 
 	self, e := os.FindProcess(os.Getpid())

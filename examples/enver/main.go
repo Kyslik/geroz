@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	// emulate passing in "env" binary as first argument
+	// Simulate passing in "env" binary as first argument
 	if len(os.Args) == 1 {
 		os.Args = append(os.Args, "env")
 	}

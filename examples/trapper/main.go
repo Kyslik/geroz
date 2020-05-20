@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// emulate passing in "./trapper.sh" script as first argument
+	// simulate passing in "./trapper.sh" script as first argument
 	if len(os.Args) == 1 {
 		os.Args = append(os.Args, "./trapper.sh")
 	}

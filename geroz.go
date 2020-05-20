@@ -24,10 +24,9 @@ func Command() (*exec.Cmd, error) {
 	return cmd, nil
 }
 
-// StartProcess tries to start `cmd`. By setting up `Setpgid` to false,
-// we can actually propagate signals.
+// StartProcess tries to start `cmd`.
 func StartProcess(cmd *exec.Cmd) (*exec.Cmd, error) {
-	// make sure not to not set Process Group ID
+	// Make sure not to not set Process Group ID
 	if cmd.SysProcAttr == nil {
 		cmd.SysProcAttr = &syscall.SysProcAttr{}
 	}
@@ -65,8 +64,7 @@ func PropagateSignals(ctx context.Context, cmd *exec.Cmd) {
 	}
 }
 
-// WaitProcess is a blocking function that waits for cmd to exit and returns its exit code
-// if an error is non-nil, returned status code is 0
+// WaitProcess is a blocking function that waits for cmd to exit and returns it's exit code.
 func WaitProcess(cmd *exec.Cmd) (int, error) {
 	err := cmd.Wait()
 	if err != nil {
