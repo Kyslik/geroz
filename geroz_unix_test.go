@@ -153,7 +153,7 @@ func TestPropagateSignals(t *testing.T) {
 // that we want to propagate signals to
 func signalCatcher() {
 	// Cleanup in case parent gets killed by SIGKILL :(
-	time.AfterFunc(100*time.Millisecond, func() { os.Exit(125) })
+	time.AfterFunc(800*time.Millisecond, func() { os.Exit(125) })
 
 	signalChannel := make(chan os.Signal, 2)
 	defer func() {
@@ -202,6 +202,7 @@ func buildTestBinary(t *testing.T) string {
 			ok(t, e)
 		}
 	}
+
 	// Build test binary for invoking later
 	cmd := exec.Command("go", "test", "-c", "-o", testBinFilename)
 
@@ -251,7 +252,7 @@ func tablePropagateSignals(t *testing.T, signal syscall.Signal) {
 	go geroz.PropagateSignals(ctx, c)
 
 	// Wait for testBin to start
-	time.Sleep(10 * time.Millisecond)
+	time.Sleep(100 * time.Millisecond)
 
 	self, e := os.FindProcess(os.Getpid())
 	ok(t, e)
