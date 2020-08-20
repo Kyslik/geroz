@@ -9,14 +9,14 @@ import (
 )
 
 func main() {
-	// emulate passing in "./trapper.sh" script as first argument
+	// simulate passing in "./trapper.sh" script as first argument
 	if len(os.Args) == 1 {
 		os.Args = append(os.Args, "./trapper.sh")
 	}
 
 	c, e := geroz.Command()
 	if e != nil {
-		log.Fatalf("failed to initialize command: %w\n", e)
+		log.Fatalf("failed to initialize command: %v\n", e)
 	}
 
 	// TODO: consider adding this to the `geroz.Command()`
@@ -26,7 +26,7 @@ func main() {
 
 	c, e = geroz.StartProcess(c)
 	if e != nil {
-		log.Fatalf("failed to start process: %w\n", e)
+		log.Fatalf("failed to start process: %v\n", e)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -46,7 +46,7 @@ func main() {
 
 	sc, e := geroz.WaitProcess(c)
 	if e != nil {
-		log.Fatalf("failed to wait for process to finish: %w\n", e)
+		log.Fatalf("failed to wait for process to finish: %v\n", e)
 	}
 
 	fmt.Println("child process exited with: ", sc)

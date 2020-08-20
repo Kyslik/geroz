@@ -7,14 +7,14 @@ import (
 )
 
 func main() {
-	// emulate passing in "env" binary as first argument
+	// Simulate passing in "env" binary as first argument
 	if len(os.Args) == 1 {
 		os.Args = append(os.Args, "env")
 	}
 
 	c, e := geroz.Command()
 	if e != nil {
-		log.Fatalf("failed to initialize command: %w\n", e)
+		log.Fatalf("failed to initialize command: %v\n", e)
 	}
 
 	c.Stdout = os.Stdout
@@ -23,6 +23,6 @@ func main() {
 
 	_, e = geroz.StartProcess(c)
 	if e != nil {
-		log.Fatalf("failed to start process: %w\n", e)
+		log.Fatalf("failed to start process: %v\n", e)
 	}
 }
