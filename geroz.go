@@ -9,8 +9,8 @@ import (
 	"syscall"
 )
 
-// Command parses `os.Args` slice and returns a struct of `*exec.Cmd`.
-func Command() (*exec.Cmd, error) {
+// NewCommand parses `os.Args` slice and returns a struct of `*exec.Cmd`.
+func NewCommand() (*exec.Cmd, error) {
 	var cmd *exec.Cmd
 	switch len(os.Args) {
 	case 0, 1:
@@ -24,9 +24,9 @@ func Command() (*exec.Cmd, error) {
 	return cmd, nil
 }
 
-// StartProcess tries to start `cmd`.
-func StartProcess(cmd *exec.Cmd) (*exec.Cmd, error) {
-	// Make sure not to not set Process Group ID
+// StartCommand tries to start `cmd`.
+func StartCommand(cmd *exec.Cmd) (*exec.Cmd, error) {
+	// make sure not to not set Process Group ID
 	if cmd.SysProcAttr == nil {
 		cmd.SysProcAttr = &syscall.SysProcAttr{}
 	}
@@ -40,7 +40,7 @@ func StartProcess(cmd *exec.Cmd) (*exec.Cmd, error) {
 	return cmd, nil
 }
 
-// PropagateSignals tries to propagate signals until ctx is closed or process `cmd` is finished.
+// PropagateSignals tries to propagate signals until `ctx` is closed or process `cmd` is finished.
 // `cmd` is considered "finished" once propagating signal fails.
 func PropagateSignals(ctx context.Context, cmd *exec.Cmd) {
 	signalChannel := make(chan os.Signal, 2)
@@ -64,8 +64,8 @@ func PropagateSignals(ctx context.Context, cmd *exec.Cmd) {
 	}
 }
 
-// WaitProcess is a blocking function that waits for cmd to exit and returns it's exit code.
-func WaitProcess(cmd *exec.Cmd) (int, error) {
+// WaitCommand is a blocking function that waits for `cmd` to exit and returns it's exit code.
+func WaitCommand(cmd *exec.Cmd) (int, error) {
 	err := cmd.Wait()
 	if err != nil {
 		if exitErr, ok := err.(*exec.ExitError); ok {

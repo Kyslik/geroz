@@ -14,17 +14,17 @@ func main() {
 		os.Args = append(os.Args, "./trapper.sh")
 	}
 
-	c, e := geroz.Command()
+	c, e := geroz.NewCommand()
 	if e != nil {
 		log.Fatalf("failed to initialize command: %v\n", e)
 	}
 
-	// TODO: consider adding this to the `geroz.Command()`
+	// TODO: consider adding this to the `geroz.NewCommand()`
 	c.Stdin = os.Stdin
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
 
-	c, e = geroz.StartProcess(c)
+	c, e = geroz.StartCommand(c)
 	if e != nil {
 		log.Fatalf("failed to start process: %v\n", e)
 	}
@@ -44,7 +44,7 @@ func main() {
 	fmt.Printf("\tkill -USR2 %d\n", self)
 	fmt.Printf("hit enter ↵ to exit\n")
 
-	sc, e := geroz.WaitProcess(c)
+	sc, e := geroz.WaitCommand(c)
 	if e != nil {
 		log.Fatalf("failed to wait for process to finish: %v\n", e)
 	}

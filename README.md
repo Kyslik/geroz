@@ -15,15 +15,15 @@ import (
 
 func main() {
     // initialize command `*exec.Cmd` with sane defaults
-    c, e := geroz.Command()
+    c, e := geroz.NewCommand()
     if e != nil {
         log.Fatalf("failed to initialize command: %v\n", e)
     }
 
     // start `c`
-    c, e = geroz.StartProcess(c)
+    c, e = geroz.StartCommand(c)
     if e != nil {
-        log.Fatalf("failed to start process: %v\n", e)
+        log.Fatalf("failed to start command: %v\n", e)
     }
 
     ctx, cancel := context.WithCancel(context.Background())
@@ -33,9 +33,9 @@ func main() {
     go geroz.PropagateSignals(ctx, c)
 
     // wait for the process to exit (blocking)
-    _, e := geroz.WaitProcess(c)
+    _, e := geroz.WaitCommand(c)
     if e != nil {
-        log.Fatalf("failed to wait for process to finish: %w\n", e)
+        log.Fatalf("failed to wait for command to finish: %w\n", e)
     }
 }
 ```

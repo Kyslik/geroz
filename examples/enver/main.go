@@ -12,7 +12,7 @@ func main() {
 		os.Args = append(os.Args, "env")
 	}
 
-	c, e := geroz.Command()
+	c, e := geroz.NewCommand()
 	if e != nil {
 		log.Fatalf("failed to initialize command: %v\n", e)
 	}
@@ -21,7 +21,7 @@ func main() {
 
 	c.Env = []string{"JANE=DOE"}
 
-	_, e = geroz.StartProcess(c)
+	_, e = geroz.StartCommand(c)
 	if e != nil {
 		log.Fatalf("failed to start process: %v\n", e)
 	}
