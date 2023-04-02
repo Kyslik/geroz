@@ -64,7 +64,7 @@ func PropagateSignals(ctx context.Context, cmd *exec.Cmd) {
 	}
 }
 
-// WaitCommand is a blocking function that waits for `cmd` to exit and returns it's exit code.
+// WaitCommand is a blocking function that waits for `cmd` to exit and returns its exit code.
 func WaitCommand(cmd *exec.Cmd) (int, error) {
 	err := cmd.Wait()
 	if err != nil {
