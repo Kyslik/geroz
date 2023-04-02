@@ -6,7 +6,6 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
-	"github.com/kyslik/geroz"
 	"io"
 	"io/ioutil"
 	"os"
@@ -18,6 +17,8 @@ import (
 	"syscall"
 	"testing"
 	"time"
+
+	"github.com/kyslik/geroz"
 )
 
 // disable output of command `c`

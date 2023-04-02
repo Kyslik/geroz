@@ -1,13 +1,14 @@
 package main
 
 import (
-	"github.com/kyslik/geroz"
 	"log"
 	"os"
+
+	"github.com/kyslik/geroz"
 )
 
 func main() {
-	// Simulate passing in "env" binary as first argument
+	// simulate passing in "env" binary as the first argument
 	if len(os.Args) == 1 {
 		os.Args = append(os.Args, "env")
 	}

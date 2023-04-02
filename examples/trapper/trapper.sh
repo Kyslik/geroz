@@ -12,4 +12,4 @@ func_trap() {
 }
 
 trap_with_arg func_trap INT QUIT URG WINCH USR1 USR2
-read
+read -r
